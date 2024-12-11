@@ -1,0 +1,72 @@
+<div *ngIf="publisher !== undefined" class="container">
+    <div class="row">
+        <div class="col-12 col-md-3"></div>
+        <div class="col-12 col-md-6">
+            <h1 class="text-center my-3">Editar publicador {{ publisher.firstname }}</h1>
+            <div class="card card-simple-info border-none my-2 p-1">
+                <div class="card-body">
+                    <form [formGroup]="editForm">
+                        <div class="input my-3">
+                            <label for="firstname">Nombre</label>
+                            <input class="form-control" formControlName="firstname" type="text">
+                            <small *ngIf="editForm.get('firstname')?.touched && editForm.get('firstname')?.invalid" class="text-danger">Debes introducir un nombre</small>
+                        </div>
+                        <div class="input my-3">
+                            <label for="lastname">Apellidos</label>
+                            <input class="form-control" formControlName="lastname" type="text">
+                            <small *ngIf="editForm.get('lastname')?.touched && editForm.get('lastname')?.invalid" class="text-danger">Debes introducir los apellidos</small>
+                        </div>
+                        <div class="input my-3">
+                            <label for="publisherType">Tipo de publicador</label>
+                            <select formControlName="publisherType" id="type" class="form-control">
+                                <option value="publicador">Publicador</option>
+                                <option value="regular">Regular</option>
+                                <option value="auxiliar">Auxiliar</option>
+                            </select>
+                        </div>
+                        <div class="input my-3">
+                            <label for="email">Correo</label>
+                            <input class="form-control" formControlName="email" type="text">
+                            <small *ngIf="editForm.get('email')?.touched && editForm.get('email')?.invalid" class="text-danger">Debes introducir un correo</small>
+                        </div>
+                        <div class="input my-3">
+                            <label for="phone">Teléfono</label>
+                            <input class="form-control" formControlName="phone" type="text">
+                            <small *ngIf="editForm.get('phone')?.touched && editForm.get('phone')?.invalid" class="text-danger">Debes introducir un teléfono</small>
+                        </div>
+                        <div class="input my-3">
+                            <label for="whatsapp">Whatsapp</label>
+                            <input class="form-control" formControlName="whatsapp" type="text">
+                            <small *ngIf="editForm.get('whatsapp')?.touched && editForm.get('whatsapp')?.invalid" class="text-danger">Debes introducir un número de Whatsapp</small>
+                        </div>
+                        <div class="input my-3">
+                            <label for="address">Dirección</label>
+                            <input class="form-control" formControlName="address" type="text">
+                            <small *ngIf="editForm.get('address')?.touched && editForm.get('address')?.invalid" class="text-danger">Debes introducir una dirección</small>
+                        </div>
+                        <div class="input my-3">
+                            <label for="description">Descripción (opcional)</label>
+                            <textarea class="form-control" formControlName="description"></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 text-left">
+                                <button (click)="edit()" type="submit" class="btn btn-custom">Guardar</button>
+                            </div>
+                            <div class="col-6 gap-2 d-md-flex justify-content-md-end">
+                                <button [routerLink]="['/admin/publishers/detail/' + publisher.id]" class="btn btn-danger">Volver</button>
+                            </div>
+                        </div>
+                        <div *ngIf="success" class="row my-3">
+                            <div class="col-12 text-center">
+                                <div class="alert alert-success" role="alert">
+                                    ¡Publicador modificado!
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-3"></div>
+    </div>
+</div>

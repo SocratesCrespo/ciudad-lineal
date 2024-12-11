@@ -1,0 +1,75 @@
+<div *ngIf="territory! !== undefined" class="container">
+    <div class="row">
+
+        <div class="col-12 col-md-7">
+            <div class="card card-simple-info border-none my-2 p-1">
+                <div class="card-body">
+                    <h5 class="card-title">Territorio {{ territory.number }}</h5>
+                    <hr>
+                    <div class="img-territory">
+                        <figure>
+                            <img class="w-100" src="{{ territory.map }}" alt="Territorio {{ territory.number }}">
+                        </figure>
+                        <div>
+                          <button (click)="sendWhatsapp()" *ngIf="territory.publisher !== ''" class="btn btn-success">Enviar por Whatsapp</button>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <div class="modify p-3">
+                    <div class="row">
+                        <div class="col-6 text-left">
+                            <button [routerLink]="['/admin/territories/edit/' + territory.id]" class="btn btn-custom">Editar</button>
+                        </div>
+                        <div *ngIf="territory.state !== 'Assigned'" class="col-6 gap-2 d-md-flex justify-content-md-end">
+                            <button (click)="hideDeleteModal('d-block')" class="btn btn-danger">Eliminar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-5">
+            <div class="card card-simple-info border-none my-2 p-1">
+                <div class="card-body">
+                    <div class="card-inner">
+                        <h5 class="card-title">Detalles del territorio</h5>
+                        <hr>
+                        <p><strong>Tipo: </strong>{{ territory.type | titlecase }}</p>
+                        <p><strong>Publicador asignado: </strong>{{ territory.publisher ? territory.publisher : 'No está asignado' }}</p>
+                        <p><strong>Detalles: </strong>{{ territory.description ? territory.description : 'No hay descripción' }}</p>
+                        <p *ngIf="territory.state == 'Assigned'"><strong>Fecha de asignado: </strong> {{ territory.date_assigned }} </p>
+                        <button *ngIf="territory.publisher !== ''" (click)="hideModal( 'd-block' )" class="btn btn-custom">Terminar territorio</button>
+                        <button *ngIf="territory.publisher === ''" [routerLink]="['/admin/territories/assign/' + territory.id]" class="btn btn-custom">Asignar territorio</button>
+                        <hr>
+                    </div>
+
+                    <div class="card-inner py-3">
+                        <h5 class="card-title">Historial</h5>
+                        <div class="row py-1">
+                            <div *ngFor="let movement of territory!.history" class="history-log col-12 my-1 p-3">
+                                <p><strong>Publicador: </strong> {{ movement.publisher }} </p>
+                                <p><strong>Comenzado: </strong> {{ movement.date_init }} | <strong>Terminado: </strong>{{ movement.date_end }}</p>
+                            </div>
+                            <div *ngIf="territory!.history.length === 0" class="history-log col-12 my-1 p-3">
+                                <p>No hay movimientos</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        
+    </div>
+</div>
+
+<div *ngIf="territory! !== undefined" [class]="finishModalClass" class="finish-territory-modal">
+    <app-finish-territory [territory]="territory" [idPublisher]="territory.publisher_id!" (childEvent)="hideModal($event)"></app-finish-territory>
+</div>
+
+<div *ngIf="territory! !== undefined" [class]="deleteModalClass" class="delete-territory-modal">
+    <app-delete-territory [idTerritory]="territory.id ? territory.id : ''" (childEvent)="hideDeleteModal($event)"></app-delete-territory>
+</div>
+
+

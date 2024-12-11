@@ -1,0 +1,37 @@
+src/
+|-- app/
+|   |-- core/
+|   |   |-- authentication/
+|   |   |-- http/
+|   |   |-- services/
+|   |   |-- guards/
+|   |-- shared/
+|   |   |-- components/
+|   |   |-- directives/
+|   |   |-- pipes/
+|   |-- modules/
+|   |   |-- territories/
+|   |   |   |-- components/
+|   |   |   |-- services/
+|   |   |   |-- models/
+|   |   |   |-- territories-routing.module.ts
+|   |   |   |-- territories.module.ts
+|   |   |-- publishers/
+|   |   |   |-- components/
+|   |   |   |-- services/
+|   |   |   |-- models/
+|   |   |   |-- publishers-routing.module.ts
+|   |   |   |-- publishers.module.ts
+        -- manage/
+|   |   |   |-- components/
+|   |   |   |-- services/
+|   |   |   |-- models/
+|   |   |   |-- manage-routing.module.ts
+|   |   |   |-- manage.module.ts
+|   |-- app.component.ts
+|   |-- app.component.html
+|   |-- app.component.css
+|   |-- app.module.ts
+|-- assets/
+|-- environments/
+|-- index.html

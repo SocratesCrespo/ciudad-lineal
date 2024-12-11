@@ -1,0 +1,33 @@
+<div class="row p-3">
+    <div class="col-12">
+        <div class="list-title p-3 my-3">
+            <h2 class="text-center">Lista de Publicadores</h2>
+        </div>
+        <div class="table-responsive animate__animated animate__fadeIn">
+            <table class="table list-table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Apellido</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Territorios</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <div *ngIf="loading || !publishers" class="spinner-border text-secondary" role="status">
+                        <span class="sr-only text-center">Loading...</span>
+                    </div>
+                    <tr *ngFor="let publisher of publishers " >
+                        <td [routerLink]="['/admin/publishers/detail/' + publisher.id]" scope="row"> {{ publisher.firstname }} </td>
+                        <td [routerLink]="['/admin/publishers/detail/' + publisher.id]">{{ publisher.lastname }}</td>
+                        <td [routerLink]="['/admin/publishers/detail/' + publisher.id]">{{ publisher.publisherType === 'regular' ? 'Precursor regular' : publisher.publisherType | titlecase }}</td>
+                        <td [routerLink]="['/admin/publishers/detail/' + publisher.id]">{{ publisher.territories }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="my-3 text-center" *ngIf="publishers.length > 9">
+            <button class="btn btn-custom" (click)="viewMore()" >Ver más</button>
+        </div>
+    </div>
+</div>

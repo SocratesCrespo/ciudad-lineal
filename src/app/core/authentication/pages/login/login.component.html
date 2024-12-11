@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="row d-flex align-items-center justify-content-center vh-100">
+        <div class="col-12 col-md-6">
+            <div class="form p-5">
+                <h1 class="text-center my-3">¡Bienvenido a Ciudad Lineal!</h1>
+                <form [formGroup]="loginForm" class="form-control p-3">
+                    <input class="form-control my-3" id="username" formControlName="username" type="text" placeholder="Correo">
+                    <div class="password-input my-3">
+                        <input class="form-control" [type]=" inputPassword ? 'text' : 'password' " id="password" formControlName="password" placeholder="Contraseña">
+                        <small (click)="showPassword()" *ngIf="loginForm.get('password')?.value?.length > 0 && !inputPassword" class="p-1">Mostrar contraseña</small>
+                        <small (click)="hidePassword()" *ngIf="loginForm.get('password')?.value?.length > 0 && inputPassword" class="p-1">Ocultar contraseña</small>
+                    </div>
+                    <button (click)="onLogin()" class="form-control btn btn-custom">Ingresar</button>
+                    <div *ngIf="loading" class="spinner-border text-secondary my-3" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <hr>
+                    <div *ngIf="loginError" class="alert alert-danger" role="alert">
+                        {{ msgError }}
+                    </div>
+                    <div class="register text-center">
+                        <p>¿No tienes cuenta? <a href="" [routerLink]="['../register']">Regístrate</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div> 
+</div>

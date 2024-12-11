@@ -1,0 +1,70 @@
+<section class="container-fluid p-0">
+    <app-main-menu></app-main-menu>
+</section>
+
+<section class="container user-details my-3">
+    <h1 class="my-4 text-center">Datos de {{ publisher.firstname }}</h1>
+    <div class="row"> 
+        <div class="col-12 col-md-6 my-3">
+            <div class="card border-none my-2 p-1">
+                <div class="card-body">
+                    <h3 class="card-text">Datos personales</h3>
+                    <h5 class="card-title title-main-info">{{ publisher.publisherType === 'regular' ? 'Precursor' : publisher.publisherType | titlecase }}</h5>
+                    <hr>
+                    <p><strong>Nombres: </strong>{{ publisher.firstname }} </p>
+                    <p><strong>Apellidos: </strong>{{ publisher.lastname }} </p>
+                    <p><strong>Teléfono: </strong>{{ publisher.phone }} </p>
+                    <p><strong>Dirección: </strong>{{ publisher.address }} </p>
+                    <p><strong>Correo: </strong>{{ publisher.email }} </p>
+                </div>
+            </div>
+            <div class="card border-none my-2 p-1">
+                <div class="card-body">
+                    <h3 class="card-text">Historial</h3>
+                    <h5 class="card-title title-main-info">Movimientos anteriores</h5>
+                    <hr>
+                    <div *ngFor="let movement of publisher.history.reverse()" class="movements">
+                        <div *ngIf="movement.date_end !== '-'" class="history-log col-12 my-1 p-3">
+                            <p><strong>Teritorio: </strong>{{ movement.territory }}</p>
+                            <p><strong>Comenzado: </strong>{{ movement.date_init }} | <strong>Terminado: </strong> {{ movement.date_end }} </p>
+                            <p><strong>Detalle:</strong> {{ movement.date_end !== '-' ? 'Territorio terminado' : 'Territorio asignado' }} </p>
+                        </div>
+                    </div>
+                    <div *ngIf="!hasMovements" class="py-3">
+                        <p>No tienes historial</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="col-12 col-md-6 my-3">
+            <div class="card border-none my-2 p-1">
+                <div class="card-body">
+                    <h3 class="card-text">Territorios asignados</h3>
+                    <h5 class="card-title title-main-info">Trabajando actualmente</h5>
+                    <hr>
+                    <div *ngFor="let territory of publisher.territories" class="territory my-3">
+                        <p><strong>Territorio {{territory}}</strong></p>
+                        <div class="date">
+                            Asignado {{ getTerritoryDate( territory ) }}
+                         </div>
+                        <div class="territory-image my-3">
+                            <img class="w-100" src="http://grafi-web.com/ciudadlineal/wp-content/uploads/2024/01/territorio-{{territory}}.png" alt="territorio {{ territory }}">
+                        </div>
+                        <div class="territory-buttons my-3">
+                            <a href="http://grafi-web.com/ciudadlineal/wp-content/uploads/2024/01/territorio-{{territory}}.png" target="_blank" class="btn btn-custom">Ver mapa</a>
+                        </div>
+                        <hr>
+                    </div>
+                    <p *ngIf="publisher.territories.length < 1">No tienes territorios asignados</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 my-3">
+            
+        </div>
+    </div>
+   
+
+</section>

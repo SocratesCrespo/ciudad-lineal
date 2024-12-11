@@ -1,0 +1,15 @@
+<div class="container container-modal-delete">
+    <div class="body-modal-delete">
+        <div class="row">
+            <div class="col text-center">
+                <h4 class="text-center">¿Seguro que deseas eliminar el territorio?</h4>
+                <div class="row m-3 p-3">
+                    <div *ngIf="!deletedSuccessfully" class="col-12 col-sm-6 my-2"><button (click)="hideModal()" class="btn btn-danger">Cancelar</button></div>
+                    <div *ngIf="!deletedSuccessfully" class="col-12 col-sm-6 my-2"><button (click)="deleteTerritory()" class="btn btn-custom">Aceptar</button></div>
+                    <p class="text-success" *ngIf="deletedSuccessfully">Territorio eliminado</p>
+                    <button *ngIf="deletedSuccessfully" [routerLink]="['/admin/territories/']" class="btn btn-custom">Ir a territorios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

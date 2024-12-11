@@ -1,0 +1,57 @@
+<div *ngIf="territory !== undefined" class="section">
+    <div class="row">
+        <div class="col-12 col-md-3"></div>
+        <div class="col-12 col-md-6">
+            <h1 class="card-title text-center my-3">Editar territorio {{ territory.number }}</h1>
+            <div class="card card-simple-info border-none my-2 p-1">
+                <div class="card-body">
+                    <form [formGroup]="editForm" class="form-control p-3">
+                        <div class="input my-3">
+                            <label class="" for="number">Número de territorio</label>
+                            <input class="form-control w-25" type="number" formControlName="number">
+                            <small *ngIf="editForm.get('number')?.invalid && editForm.get('number')?.touched" class="text-danger">Debes seleccionar un número mayor a 0</small>
+                        </div>
+                        <div class="input my-3">
+                            <label for="type">Tipo de territorio</label>
+                            <select class="form-control" formControlName="type" id="type" [value]="this.territory !== undefined ? this.territory.type : ''">
+                                <option value="residencial">Residencial</option>
+                                <option value="comercial">Comercial</option>
+                                <option value="dificil">Difícil acceso</option>
+                            </select>
+                            <small *ngIf="editForm.get('type')?.invalid && editForm.get('type')?.touched" class="text-danger">Debes seleccionar un tipo</small>
+                        </div>
+                        <div class="input my-3">
+                            <label for="map">Mapa</label>
+                            <input class="form-control" type="text" formControlName="map">
+                            <small *ngIf="editForm.get('map')?.invalid && editForm.get('map')?.touched" class="text-danger">Debes agregar un link</small>
+                        </div>
+                        <div class="input my-3">
+                            <label for="description">Descripción</label>
+                            <textarea class="form-control" formControlName="description" type="text"></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="input my-3">
+                                    <button (click)="edit()" class="btn btn-custom" type="submit">Guardar</button>
+                                </div>
+                            </div>
+                            <div class="col-6 gap-2 d-md-flex justify-content-md-end">
+                                <div class="input my-3">
+                                    <button [routerLink]="['/admin/territories/detail/' + territory.id]" class="btn btn-danger">Volver</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div *ngIf="formErrors" class="alert alert-danger" role="alert">
+                            Hay errores en el formulario
+                        </div>
+                        <div *ngIf="success" class="alert alert-success" role="alert">
+                            ¡Territorio modificado!
+                        </div>
+                    </form>
+                </div>
+            </div>            
+        </div>
+        <div class="col-12 col-md-3"></div>
+    </div>
+</div>

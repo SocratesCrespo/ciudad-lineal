@@ -1,0 +1,32 @@
+<div class="header bg-white px-3">
+    <div class="row align-items-center">
+        <div class="main-header col-8 col-md-6 p-3">
+            <div class="input-icons">
+                <form [formGroup]="searchForm">
+                    <input (keyup)="getList()" (blur)="hidelist()" (focus)="getList()" type="text" formControlName="search" placeholder="Busca aquí el publicador o territorio" class="form-control w-100 w-md-75">
+                </form>
+                <div *ngIf="displayList === true && searchForm.valid" class="list bg-white position-absolute w-50 zindex-fixed">
+                    <div class="row">
+                        <div class="col-12">
+                            <p *ngIf="(territories !== undefined && territories.length == 0) && (publishers !== undefined && publishers.length == 0)" class="m-0 p-3">No se encontraron resultados</p>
+                            <div *ngIf="publishers !== undefined" class="publishers">
+                                <p (click)="selectItem()" [routerLink]="['/admin/publishers/detail/' + publisher.id]" *ngFor="let publisher of publishers" class="m-0 p-3">{{ publisher.firstname + ' ' + publisher.lastname }}</p>
+                            </div>
+                            <div *ngIf="territories !== undefined" class="territories">
+                                <p (click)="selectItem()" [routerLink]="['/admin/territories/detail/' + territory.id]" *ngFor="let territory of territories" class="m-0 p-3">Territorio {{ territory.number }}</p>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-none d-md-block col-md-3"></div>
+
+        <div class="col-4 col-md-3">
+            <p class="p-0 m-0 text-right">Hola <strong>{{ currentUser }}</strong></p>
+            <small (click)="logOut()" class="close-session text-danger">Cerrar sesión</small>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,47 @@
+<div class="row p-3">
+    <div class="col-12">
+        <div class="list-title p-3 my-3">
+            <h2 class="text-center">Lista de Territorios</h2>
+        </div>
+        <div class="row my-2 p-2">
+            <div class="col-4 col-md-4 my-2 text-center">
+                <button (click)="filterList('todos')" class="btn btn-custom">Todos</button>
+            </div>
+            <div class="col-4 col-md-4 my-2 text-center">
+                <button (click)="filterList('Assigned')" class="btn btn-custom">Asignados</button>
+            </div>
+            <div class="col-4 col-md-4 my-2 text-center">
+                <button (click)="filterList('Not assigned')" class="btn btn-custom">Disponibles</button>
+            </div>
+        </div>
+        <div class="table-responsive animate__animated animate__fadeIn">
+            <table class="table list-table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Número</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Publicador</th>
+                        <th scope="col">{{ listState == 'Not assigned' ? 'Fecha terminado' : 'Fecha de asignado' }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let territory of list; index as i">
+                        <th [routerLink]="['/admin/territories/detail/' + territory.id]" scope="row" *ngIf="i < displayCount">{{ territory.number }}</th>
+                        <td [routerLink]="['/admin/territories/detail/' + territory.id]" *ngIf="i < displayCount">{{ territory.state == 'Assigned' ? 'Asignado' : 'Sin asignar' }}</td>
+                        <td [routerLink]="['/admin/territories/detail/' + territory.id]" *ngIf="i < displayCount">{{ territory.type === 'dificil' ? 'Difícil acceso' : territory.type | titlecase }}</td>
+                        <td [routerLink]="['/admin/territories/detail/' + territory.id]" *ngIf="i < displayCount">{{ territory.publisher !== '' ? territory.publisher : 'Sin asignar' }}</td>
+                        <td 
+                        [ngClass]="{
+                        'text-danger' : toExpire( territory.last_date) > 3 && territory.state == 'Assigned',
+                        'text-success' : toExpire( territory.last_date) > 3 && territory.state == 'Not assigned'}"
+                        [routerLink]="['/admin/territories/detail/' + territory.id]" *ngIf="i < displayCount"> {{ territory.state == 'Assigned' ? territory.date_assigned : endDate( territory.last_date ) }} </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="my-3 text-center" *ngIf="territories.length > 100 && listState === 'todos'">
+            <button class="btn btn-custom" (click)="viewMore()" >Ver más</button>
+        </div>
+    </div>
+</div>

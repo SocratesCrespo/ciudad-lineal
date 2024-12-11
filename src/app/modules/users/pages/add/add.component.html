@@ -1,0 +1,43 @@
+<section class="container-fluid p-0">
+    <app-main-menu></app-main-menu>
+</section>
+<div class="row p-3">
+    <div class="col-12 col-md-3"></div>
+    <div class="col-12 col-md-6">
+        <div class="list-title p-3 my-3">
+            <h2 class="text-center">Agregar usuario</h2>
+        </div>
+        <form [formGroup]="addForm" class="form-control my-3 p-3">
+
+            <div class="add-user">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="input my-3">
+                            <label for="email">Nombre</label>
+                            <input class="form-control" type="text" formControlName="name">
+                        </div>
+                        <div class="input my-3">
+                            <label for="email">Correo</label>
+                            <input class="form-control" type="text" formControlName="email">
+                        </div>
+                        <div class="input my-3">
+                            <label for="password">Contraseña</label>
+                            <input class="form-control" type="password" formControlName="password">
+                        </div>
+                        <div *ngIf="error !== ''" class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+                        <div *ngIf="success" class="alert alert-success" role="alert">
+                            Usuario registrado
+                        </div>
+                        <div class="input my-3">
+                            <button (click)="anotherUser()" *ngIf="success" class="btn btn-custom">Agregar otro usuario</button>
+                            <button (click)="addUser()" *ngIf="!success" [routerLink]="['/admin/users/add']" class="btn btn-custom">Agregar usuario</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-12 col-md-3"></div>
+</div>

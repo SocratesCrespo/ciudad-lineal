@@ -1,0 +1,84 @@
+// Colors
+$base-color: #434ce6
+$black: #000c0a
+$gray: #f5f5f5
+$text: #565a58
+$gray-light: #a2a2a2
+
+.header
+    small
+        color: $gray-light
+
+.main-content
+    margin-left: 15%
+    width: 85%
+
+.main-header input
+    background-color: $gray
+    border: none
+    border-radius: 5px
+    height: 35px
+    &:focus
+        border: none
+        box-shadow: $base-color 0px 0px 2px
+        outline: none
+    &::placeholder
+        color: $gray-light
+
+.main-content .content
+    background-color: $gray
+    
+.sidebar
+    background-color: $black
+    height: 100%
+    width: 15%
+    z-index: 999
+
+.sidebar-items ul li
+    color: $text
+    cursor: pointer
+    list-style: none
+    &:hover
+        background-color: $base-color
+        border-radius: 5px
+        color: white
+    
+.sidebar-items ul li.active
+    background-color: $base-color
+    border-radius: 5px
+    color: white
+
+.inline
+    max-width:400px
+    margin:auto
+
+.sidebar-open
+    /* width: 75% */
+
+@media (max-width: 991.98px) and (min-width: 768px)
+    .sidebar
+        width: 25%
+
+    .main-content
+        margin-left: 25%
+        width: 75%
+
+@media (max-width: 767.99px) and (min-width: 576px)
+    .sidebar
+        width: 30%
+
+    .main-content
+        margin-left: 30%
+        width: 70%
+
+@media (max-width: 575.99px)
+    .sidebar-close
+        /* width: 10% */
+        .sidebar-logo
+            display: none
+        .sidebar-items
+            display: none
+    
+    .main-content
+        margin-left: 10%
+        width: 90%

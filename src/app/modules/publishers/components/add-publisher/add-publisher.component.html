@@ -1,0 +1,95 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="my-3 text-center">Agregar publicador</h1>
+        </div>
+        <div class="col-12 col-md-3"></div>
+        <div class="col-12 col-md-6">
+            <form [formGroup]="addForm" (ngSubmit)="onSave()" class="form-control w-100 m-auto">
+                <div class="py-2">
+                    <label for="firstname">Nombre</label>
+                    <input type="text"
+                           class="form-control w-100" 
+                           name="firstname"
+                           formControlName="firstname"
+                           placeholder="Nombre del publicador">
+                           <small class="text-danger" *ngIf="addForm.get('firstname')?.touched && addForm.get('firstname')?.invalid">Agrega el nombre del publicador</small>
+                </div>
+                <div class="py-2">
+                    <label for="lastname">Apellido</label>
+                    <input type="text"
+                           class="form-control w-100" 
+                           name="lastname"
+                           formControlName="lastname"
+                           placeholder="Apellido del publicador">
+                           <small class="text-danger" *ngIf="addForm.get('lastname')?.touched && addForm.get('lastname')?.invalid">Agrega el apellido del publicador</small>
+                </div>
+                <div class="py-2">
+                    <label for="publisherType">Tipo de Publicador</label>
+                    <select class="form-control my-2"
+                            name="publisherType"
+                            formControlName="publisherType">
+                        <option value="publicador">Publicador</option>
+                        <option value="auxiliar">Precursor auxiliar</option>
+                        <option value="regular">Precursor regular</option>
+                        <option value="especial">Precursor especial</option>
+                    </select>
+                    <small class="text-danger" *ngIf="addForm.get('publisherType')?.touched && addForm.get('publisherType')?.invalid">Selecciona el tipo de territorio</small>
+                </div>
+                <div class="py-2">
+                    <label for="email">Correo</label>
+                    <input type="text" 
+                           class="form-control" 
+                           name="email" 
+                           formControlName="email"
+                           placeholder="Correo electrónico">
+                           <small class="text-danger" *ngIf="addForm.get('email')?.touched && addForm.get('email')?.invalid">Debes agregar el correo</small>
+                </div>
+                <div class="py-2">
+                    <label for="phone">Teléfono</label>
+                    <input type="text" 
+                           class="form-control" 
+                           name="phone" 
+                           formControlName="phone"
+                           placeholder="Teléfono personal">
+                           <small class="text-danger" *ngIf="addForm.get('phone')?.touched && addForm.get('phone')?.invalid">Debes agregar el teléfono</small>
+                </div>
+                <div class="py-2">
+                    <label for="whatsapp">Whatsapp</label>
+                    <input type="text" 
+                           class="form-control" 
+                           name="whatsapp" 
+                           formControlName="whatsapp"
+                           placeholder="Móvil con Whatsapp">
+                           <small class="text-danger" *ngIf="addForm.get('whatsapp')?.touched && addForm.get('whatsapp')?.invalid">Debes agregar el whatsapp</small>
+                </div>
+                <div class="py-2">
+                    <label for="address">Dirección</label>
+                    <input type="text" 
+                           class="form-control" 
+                           name="address" 
+                           formControlName="address"
+                           placeholder="Dirección completa">
+                           <small class="text-danger" *ngIf="addForm.get('address')?.touched && addForm.get('address')?.invalid">Debes agregar una dirección</small>
+                </div>
+                <div class="py-2">
+                    <label for="description">Descripción (opcional)</label>
+                    <textarea class="form-control my-2" 
+                              name="description"
+                              formControlName="description" 
+                              placeholder="Comentario sobre el publicador"></textarea>
+                </div>
+                <div class="py-2 text-center">
+                    <button type="submit" 
+                            class="btn btn-custom">Agregar</button>
+                </div>
+                <div class="w-100 text-center">
+                    <small *ngIf="added === true" class="text-success">¡Publicador agregado!</small>
+                    <small *ngIf="error === true" class="text-danger">No se pudo agregar el publicador</small>
+                </div>
+            </form>
+        </div>
+        <div class="col-12 col-md-3"></div>
+    </div>
+</div>
+

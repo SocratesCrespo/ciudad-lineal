@@ -1,0 +1,36 @@
+<div class="bg-white p-3">
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <div [routerLink]="['/admin/publishers']" class="card border-none my-2 p-1">
+                <div class="card-body">
+                    <h3 class="card-text">{{ publishers }}</h3>
+                    <h5 class="card-title title-main-info">Publicadores</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div [routerLink]="['/admin/territories']" class="card border-none my-2 p-1">
+                <div class="card-body">
+                    <h3 class="card-text">{{ assigned }}</h3>
+                    <h5 class="card-title title-main-info">Territorios asignados</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div [routerLink]="['/admin/territories']" class="card border-none my-2 p-1">
+                <div class="card-body">
+                    <h3 class="card-text">{{ available }}</h3>
+                    <h5 class="card-title title-main-info">Territorios disponibles</h5>
+                </div>
+            </div>
+        </div>
+        <div [routerLink]="['/admin/territories']" class="col-12 col-md-6">
+            <div class="card border-none my-2 p-1">
+                <div class="card-body">
+                    <h3 class="card-text">{{ finished }}</h3>
+                    <h5 class="card-title title-main-info">Territorios terminados</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

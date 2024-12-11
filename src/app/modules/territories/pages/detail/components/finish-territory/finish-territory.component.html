@@ -1,0 +1,15 @@
+<div class="container container-modal-finish">
+    <div class="body-modal-finish">
+        <div class="row">
+            <div class="col text-center">
+                <h4 class="text-center">¿Seguro que deseas terminar el territorio?</h4>
+                <div class="row m-3 p-3">
+                    <div *ngIf="!finalizedSuccessfully" class="col-12 col-sm-6 my-2"><button (click)="hideModal()" class="btn btn-danger">Cancelar</button></div>
+                    <div *ngIf="!finalizedSuccessfully" class="col-12 col-sm-6 my-2"><button (click)="finish()" class="btn btn-custom">Aceptar</button></div>
+                    <p class="text-success" *ngIf="finalizedSuccessfully">Territorio finalizado</p>
+                    <button *ngIf="finalizedSuccessfully" [routerLink]="['/admin/territories/']" class="btn btn-custom">Ver territorios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

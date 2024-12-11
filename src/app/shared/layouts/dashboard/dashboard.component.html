@@ -1,0 +1,53 @@
+<section class="container-fluid m-0 p-0 d-flex">
+
+    <div [ngClass]="sidebarWidth" [ngStyle]="{ 'width.%': dynamicWidth }" class="sidebar position-fixed p-md-3" >
+        <div class="mobile-menu d-block d-sm-none text-center mt-2">
+            <a (click)="displayMenu()" >
+                <div *ngIf="sidebarWidth == 'sidebar-close'">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><style>svg{fill:#ffffff}</style><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg>
+                </div>
+                <div *ngIf="sidebarWidth == 'sidebar-open'">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512"><style>svg{fill:#ffffff}</style><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/></svg>
+                </div>
+            </a>
+        </div>
+        <div class="sidebar-logo row my-3">
+            <div class="col-12 p-1">
+                <h3 class="text-white text-center">Ciudad Lineal</h3>
+            </div>
+        </div>
+
+        <div class="sidebar-items row my-3">
+            <div class="col-12">
+                <ul class="p-0 m-0">
+                    <li (click)="closeMenu()" [routerLink]="['/admin/home']" routerLinkActive="active" class="py-3 px-1 my-3 text-center"><i class="bi bi-grid-1x2"></i>Escritorio</li>
+                    <li (click)="closeMenu()" [routerLink]="['/admin/publishers']" routerLinkActive="active" class="py-3 px-2 my-3 text-center">Publicadores</li>
+                    <li (click)="closeMenu()" [routerLink]="['/admin/territories']" routerLinkActive="active" class="py-3 px-2 my-3 text-center">Territorios</li>
+                    <li (click)="closeMenu()" [routerLink]="['/admin/history']" routerLinkActive="active"  class="py-3 px-2 my-3 text-center">Historial</li>
+                </ul>
+                <hr>
+                <div class="py-3 border-top-dark">
+                    <h5 class="text-light text-center">Opciones Admin</h5>
+                    <ul class="p-0 m-0">
+                        <li (click)="closeMenu()" [routerLink]="['/admin/territories/add']" routerLinkActive="active" class="py-3 px-1 my-3 text-center"><i class="bi bi-grid-1x2"></i>Agregar Territorio</li>
+                        <li (click)="closeMenu()" [routerLink]="['/admin/publishers/add']" routerLinkActive="active" class="py-3 px-2 my-3 text-center">Agregar publicador</li>
+                        <li (click)="closeMenu()" [routerLink]="['/users/add']" routerLinkActive="active" class="py-3 px-2 my-3 text-center">Agregar usuario</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <app-search-menu></app-search-menu>
+
+        <div class="content p-3 vh-100">
+            <div class="row">
+                <div class="col">
+                    <router-outlet></router-outlet>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>

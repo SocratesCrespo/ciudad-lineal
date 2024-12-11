@@ -1,0 +1,133 @@
+<div *ngIf="publisher !== undefined" class="container">
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <div class="card card-simple-info border-none my-2 p-1">
+                <div class="card-body">
+                    <h5 class="card-title">{{ publisher.firstname + ' ' + publisher.lastname }}</h5>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">{{ publisher.email }}</h6>
+                    <div class="btn-contact">
+                        <a href="https://wa.me/34{{ publisher.whatsapp }}" class="btn btn-success">Contactar</a>
+                    </div>
+                    <hr>
+                    <div class="row py-3">
+                        <div class="col-12 col-md-7">
+                            <p><strong>Teléfono: </strong>{{ publisher.phone }}</p>
+                            <p><strong>Dirección: </strong>{{ publisher.address }}</p>
+                            <p><strong>Tipo: </strong> {{ publisher.publisherType | titlecase }}</p>
+                            <p><strong>Detalle: </strong> {{ publisher.description ? publisher.description : '-' }} </p>
+                        </div>
+                    </div>
+                    <div class="modify">
+                        <div class="row">
+                            <div class="col-6 text-left">
+                                <button [routerLink]="['/admin/publishers/edit/' + publisher.id]" class="btn btn-custom">Editar</button>
+                            </div>
+                            <div *ngIf="publisher.territories.length < 1" class="col-6 gap-2 d-md-flex justify-content-md-end">
+                                <button (click)="hideDeleteModal('d-block')" class="btn btn-danger">Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+
+                <div class="card card-simple-info border-none my-1 p-1">
+                    <div class="card-body">
+                        <h5 class="card-title">Historial</h5>
+                        <div class="row py-1">
+                            <div *ngFor="let movement of publisher.history.reverse()" class="history-log col-12 my-1 p-3">
+                                <p><strong>Teritorio: </strong>{{ movement.territory }}</p>
+                                <p><strong>Comenzado: </strong>{{ movement.date_init }} | <strong>Terminado: </strong> {{ movement.date_end }} </p>
+                                <p><strong>Detalle:</strong> {{ movement.date_end !== '-' ? 'Territorio terminado' : 'Territorio asignado' }} </p>
+                            </div>
+                            <div *ngIf="publisher!.history.length === 0" class="py-3">
+                                <p>El publicador no tiene historial</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6">
+            <div class="card card-simple-info border-none my-2 p-1">
+                <div class="card-body">
+                        <h5 class="card-title">Territorios asignados</h5>
+                        <h6 class="card-subtitle mb-2 text-body-secondary">Mapas de los territorios</h6>
+                        <div *ngFor="let territory of publisher.territories" class="asigned">
+                            <div class="working-maps text-center">
+                                <hr>
+                                <p>Territorio {{ territory }}</p>
+                                <figure class="map">
+                                    <img class="w-75" src="{{ imgSlug }}{{ territory }}.png" alt="territorio {{ territory }}">
+                                </figure>
+                                <hr>
+                            </div>
+                            <button *ngIf="publisher?.territories?.length !== 0" class="btn btn-custom my-1" (click)="finishThisTerritory(territory)">Terminar</button>
+                        </div>
+                        <div *ngIf="showForm === false" class="py-3">
+                            <p *ngIf="publisher?.territories?.length == 0">El publicador no tiene territorios asignados</p>
+                            <button (click)="displayForm()" *ngIf="publisher?.territories?.length == 0" class="btn btn-custom my-1">Asignar</button>
+                        </div>
+                        <div *ngIf="showForm" class="assign-form">
+                            <h5>Asignar territorio</h5>
+                            <form [formGroup]="assignForm" class="form-control">
+                                <div class="py-3">
+                                    <label for="territory">Territorio</label>
+                                    <input (click)="displayList()" (keyup)="displayList()" type="number" name="territory" formControlName="territory" class="form-control w-25">
+                                    <div *ngIf="showList" id="territory-list" class="border position-absolute bg-white w-25">
+                                        <ul class="m-0 p-0">
+                                            <li class="p-2" *ngIf="territoriesToAssign.length === 0">No hay territorios para asignar</li>
+                                            <li class="p-2" *ngFor="let territory of territoriesToAssign">
+                                                <p (click)="selectTerritory( territory )" >Territorio {{ territory.number }}</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="py-3">
+                                    <label for="description">Descripción (opcional)</label>
+                                    <input type="text" name="description" formControlName="description" class="form-control">
+                                </div>
+                                <div *ngIf="!success" class="py-3">
+                                    <button (click)="assignTerritory()" type="submit" class="btn btn-custom">Asignar</button>
+                                    <button (click)="hideForm()" class="btn btn-danger mx-3">Cancelar</button>
+                                </div>
+                                <div class="error">
+                                    <small *ngIf="error" class="text-danger">Por favor selecciona un territorio</small>
+                                </div>
+                                <div *ngIf="success" class="assigned">
+                                    <div class="py-3">
+                                        <button [routerLink]="['/admin/territories/detail/' + territorySelected.id]" class="btn btn-custom">Ver territorio</button>
+                                    </div>
+                                    <div class="alert alert-success" role="alert">
+                                        El territorio ha sido asignado
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <hr>
+                        <div *ngIf="showForm === false && publisher.territories.length > 0 && (publisher.publisherType === 'regular' || publisher.publisherType === 'auxiliar')" class="py-3">
+                            <h5>Asignar otro territorio</h5>
+                            <button (click)="displayForm()" class="btn btn-custom my-1">Asignar</button>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-md-6">
+
+        </div>
+        <div class="col-12 col-md-6">
+
+        </div>
+    </div>
+</div>
+
+<div [class]="finishModalClass" class="finish-territory-modal">
+    <app-finish-territory [publisher]="publisher" [territory]="currentTerritory" (childEvent)="hideModal($event)"></app-finish-territory>
+</div>
+
+<div [class]="deleteModalClass" class="delete-publisher-modal">
+    <app-delete-publisher [idPublisher]="publisher.id ? publisher.id : ''" (childEvent)="hideDeleteModal($event)"></app-delete-publisher>
+</div>
