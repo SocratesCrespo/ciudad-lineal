@@ -1,3 +1,5 @@
+export type UserRole = 'pending' | 'customer' | 'admin';
+
 export interface UserCustomer{
     id_customer?: string,
     name: string;

@@ -12,6 +12,13 @@ export interface Publisher {
     history: History[]
 }
 
+// Version publica y minima de un publicador (coleccion 'publisherDirectory')
+export interface PublisherDirectoryEntry {
+    id: string,
+    firstname: string,
+    lastname: string
+}
+
 export interface Territory {
     number: number
 }

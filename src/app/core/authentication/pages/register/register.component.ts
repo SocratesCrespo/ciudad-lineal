@@ -2,9 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
-import { Publisher } from 'src/app/modules/publishers/models/publisher.interface';
+import { PublisherDirectoryEntry } from 'src/app/modules/publishers/models/publisher.interface';
 import { PublishersService } from 'src/app/modules/publishers/services/publishers.service';
 import { UsersService } from 'src/app/modules/users/services/users.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -20,7 +21,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     confirmPassword: ['', [Validators.required, Validators.minLength(6)]]
   });
   public mainError: string = '';
-  public publishers: Publisher[] = [];
+  public publishers: PublisherDirectoryEntry[] = [];
   public destroyObs$: Subject<void> = new Subject();
   public success: boolean = false;
   public inputPassword: boolean = false;
@@ -30,11 +31,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private router: Router,
     private usersServices: UsersService,
+    private authService: AuthService,
     private publishersService: PublishersService
   ){}
 
   ngOnInit(): void {
-      this.publishersService.getPublishers()
+      this.publishersService.getPublisherDirectory()
        .pipe( takeUntil( this.destroyObs$ ) )
        .subscribe(
          publishers => this.publishers = publishers.sort((a,b) => a.firstname.localeCompare(b.firstname))
@@ -66,8 +68,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
     const name = this.publisherNameById( publisher_id );
 
     // Register if evrything is ok
-    const success = await this.usersServices.registerCustomer( email, password, name, publisher_id, 'customer' )
-      .then( response => {
+    const success = await this.usersServices.registerCustomer( email, password, name, publisher_id, 'pending' )
+      .then( async response => {
+        // La cuenta queda pendiente de aprobacion: se cierra la sesion que abre el registro
+        await this.authService.logout();
         this.mainError = '';
         this.success = true;
         this.registerForm.reset();

@@ -44,13 +44,17 @@ onLogin(){
     () => {
       const localRole = localStorage.getItem( 'role' );
       const publisherId = localStorage.getItem( 'id_publisher' );
-      if( localRole !== null && publisherId !== null ){
-        this.AuthService.redirectLogin( localRole, publisherId );
+      if( localRole === 'admin' || localRole === 'customer' ){
+        this.AuthService.redirectLogin( localRole, publisherId ?? '' );
       }else{
         this.loading = false;
-        localStorage.clear();
-        this.msgError = 'El usuario no tiene rol';
+        this.msgError = localRole === 'pending'
+          ? 'Tu cuenta está pendiente de aprobación por un administrador'
+          : 'Tu cuenta no tiene acceso';
+        this.loginError = true;
+        return this.AuthService.logout();
       }
+      return;
     } 
   )
   .catch( error => {

@@ -14,6 +14,7 @@ export class ListComponent implements OnInit, OnDestroy {
   public publishers: Publisher[] = [];
   loading: boolean = true;
   destroyObs$: Subject<void> = new Subject();
+  private directorySynced: boolean = false;
 
   constructor( private publishersService: PublishersService ){}
 
@@ -24,6 +25,11 @@ export class ListComponent implements OnInit, OnDestroy {
         publishers => {
           this.publishers = publishers.sort( (a,b) => a.firstname.localeCompare(b.firstname) );
           this.loading = false;
+          // Mantiene el directorio publico (usado por /auth/register) al dia
+          if( !this.directorySynced ){
+            this.directorySynced = true;
+            this.publishersService.syncDirectory( this.publishers );
+          }
         }
       )
   }

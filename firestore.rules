@@ -3,17 +3,92 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // This rule allows anyone with your Firestore database reference to view, edit,
-    // and delete all data in your Firestore database. It is useful for getting
-    // started, but it is configured to expire after 30 days because it
-    // leaves your app open to attackers. At that time, all client
-    // requests to your Firestore database will be denied.
-    //
-    // Make sure to write security rules for your app before that time, or else
-    // all client requests to your Firestore database will be denied until you Update
-    // your rules
-    match /{document=**} {
-      allow read, write: if request.time < timestamp.date(2027, 1, 17);
+    // ---------------------------------------------------------------
+    // Helpers
+    // ---------------------------------------------------------------
+    function signedIn() {
+      return request.auth != null;
     }
+
+    function userPath(uid) {
+      return /databases/$(database)/documents/users/$(uid);
+    }
+
+    // Admin = usuario autenticado cuyo documento users/{uid} tiene role == 'admin'.
+    function isAdmin() {
+      return signedIn()
+        && exists(userPath(request.auth.uid))
+        && get(userPath(request.auth.uid)).data.role == 'admin';
+    }
+
+    // Customer vinculado a un publicador concreto.
+    function isOwnPublisher(publisherId) {
+      return signedIn()
+        && exists(userPath(request.auth.uid))
+        && get(userPath(request.auth.uid)).data.role == 'customer'
+        && get(userPath(request.auth.uid)).data.id_publisher == publisherId;
+    }
+
+    // Auto-registro (pantalla /auth/register): el usuario solo puede crear SU
+    // documento, siempre con role 'pending' (un admin debe aprobarlo despues),
+    // y vinculado a un publicador que exista.
+    function isValidSelfRegistration(uid) {
+      return signedIn()
+        && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['id_customer', 'name', 'email', 'id_publisher', 'role'])
+        && request.resource.data.role == 'pending'
+        && request.resource.data.id_customer == uid
+        && request.resource.data.email.lower() == request.auth.token.email.lower()
+        && request.resource.data.id_publisher is string
+        && exists(/databases/$(database)/documents/publisherDirectory/$(request.resource.data.id_publisher));
+    }
+
+    // ---------------------------------------------------------------
+    // users: perfil y rol de cada cuenta
+    // ---------------------------------------------------------------
+    match /users/{uid} {
+      allow get: if signedIn() && request.auth.uid == uid;
+      allow get, list: if isAdmin();
+      allow create: if isAdmin() || isValidSelfRegistration(uid);
+      // Solo un admin puede cambiar roles (unicamente el campo 'role') o borrar cuentas,
+      // y nunca la suya propia (evita que el sistema se quede sin administradores).
+      allow update: if isAdmin()
+        && request.auth.uid != uid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['role'])
+        && request.resource.data.role in ['pending', 'customer', 'admin'];
+      allow delete: if isAdmin() && request.auth.uid != uid;
+    }
+
+    // ---------------------------------------------------------------
+    // publisherDirectory: solo nombre y apellido de cada publicador.
+    // Es publica porque la pantalla de registro (sin sesion) la usa para
+    // elegir "¿Que publicador eres?". NO contiene telefono, email ni direccion.
+    // ---------------------------------------------------------------
+    match /publisherDirectory/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ---------------------------------------------------------------
+    // publishers: datos personales (telefono, email, direccion, historial)
+    // ---------------------------------------------------------------
+    match /publishers/{id} {
+      allow get: if isAdmin() || isOwnPublisher(id);
+      allow list: if isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // ---------------------------------------------------------------
+    // territories y movements: solo administradores
+    // ---------------------------------------------------------------
+    match /territories/{id} {
+      allow read, write: if isAdmin();
+    }
+
+    match /movements/{id} {
+      allow read, write: if isAdmin();
+    }
+
+    // Todo lo demas queda denegado por defecto.
   }
 }

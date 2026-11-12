@@ -5,6 +5,8 @@ import { Observable, catchError, map, of, tap } from 'rxjs';
 import { Auth, createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut, updateProfile, user } from '@angular/fire/auth';
 import { UsersService } from 'src/app/modules/users/services/users.service';
 import { UserCustomer } from 'src/app/modules/users/models/user.interface';
+import { deleteApp, initializeApp } from '@angular/fire/app';
+import { enviroment } from 'src/enviroments/enviroment.prod';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -51,23 +53,28 @@ export class AuthService {
       )
   }
 
+  // Alta de un nuevo ADMIN. Solo funciona si quien lo ejecuta ya es admin: las reglas
+  // de Firestore rechazan que un usuario se asigne a si mismo el rol 'admin'.
+  // La cuenta se crea con una app de Firebase secundaria para no cerrar la sesion del
+  // admin actual; el documento users/{uid} se escribe con la sesion del admin.
   async register( email: string, password: string, name: string ){
-    return await createUserWithEmailAndPassword( this.auth, email, password )
-      .then(
-        async response => {
-          updateProfile( response.user, {
-            displayName: name
-          });
-          const user: UserCustomer = {
-            id_customer : response.user.uid,
-            name : name,
-            email : email,
-            id_publisher : '',
-            role : 'admin'
-          }
-          await this.usersService.addUser( user );
-        }
-      );
+    const secondaryApp = initializeApp( enviroment.firebase, 'admin-register-' + Date.now() );
+    try {
+      const secondaryAuth = getAuth( secondaryApp );
+      const response = await createUserWithEmailAndPassword( secondaryAuth, email, password );
+      await updateProfile( response.user, { displayName: name } );
+      const user: UserCustomer = {
+        id_customer : response.user.uid,
+        name : name,
+        email : email,
+        id_publisher : '',
+        role : 'admin'
+      }
+      await this.usersService.addUser( user );
+      await signOut( secondaryAuth );
+    } finally {
+      await deleteApp( secondaryApp );
+    }
   }
 
   redirectLogin( role: string, id_publisher: string ){

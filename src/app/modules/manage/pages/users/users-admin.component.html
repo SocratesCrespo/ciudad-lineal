@@ -1,0 +1,81 @@
+<div class="row p-3">
+    <div class="col-12">
+        <div class="list-title p-3 my-3">
+            <h2 class="text-center">Usuarios</h2>
+        </div>
+
+        <div *ngIf="error" class="alert alert-danger text-center" role="alert">{{ error }}</div>
+        <div *ngIf="success" class="alert alert-success text-center" role="alert">{{ success }}</div>
+
+        <div class="table-responsive animate__animated animate__fadeIn">
+            <table class="table list-table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Rol</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <div *ngIf="loading" class="spinner-border text-secondary" role="status">
+                        <span class="sr-only text-center">Loading...</span>
+                    </div>
+                    <tr *ngFor="let user of users">
+                        <td scope="row">{{ user.name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            <span *ngIf="user.role === 'pending'" class="badge bg-warning text-dark me-2">Pendiente</span>
+                            <select class="form-select form-select-sm d-inline-block w-auto"
+                                    [disabled]="isCurrentUser(user)"
+                                    [title]="isCurrentUser(user) ? 'No puedes cambiar tu propio rol' : ''"
+                                    (change)="changeRole(user, $any($event.target).value)">
+                                <option *ngFor="let r of roles" [value]="r.value" [selected]="r.value === user.role">{{ r.label }}</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button *ngIf="user.role === 'pending'" (click)="approve(user)" class="btn btn-custom btn-sm me-2">Aprobar</button>
+                            <button (click)="askReset(user)" class="btn btn-secondary btn-sm me-2">Restablecer contraseña</button>
+                            <button (click)="askDelete(user)" [disabled]="isCurrentUser(user)" class="btn btn-danger btn-sm">Eliminar</button>
+                        </td>
+                    </tr>
+                    <tr *ngIf="!loading && users.length === 0">
+                        <td colspan="4" class="text-center">No hay usuarios</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Confirmacion de restablecimiento de contrasena -->
+<div *ngIf="userToReset" class="container container-modal-delete">
+    <div class="body-modal-delete">
+        <div class="row">
+            <div class="col text-center">
+                <h4 class="text-center">¿Enviar correo de restablecimiento a {{ userToReset.name }}?</h4>
+                <p class="text-muted">Se enviará a {{ userToReset.email }} un enlace para que elija una contraseña nueva.</p>
+                <div class="row m-3 p-3">
+                    <div class="col-12 col-sm-6 my-2"><button (click)="cancelReset()" class="btn btn-danger">Cancelar</button></div>
+                    <div class="col-12 col-sm-6 my-2"><button (click)="confirmReset()" class="btn btn-custom">Enviar</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Confirmacion de eliminacion -->
+<div *ngIf="userToDelete" class="container container-modal-delete">
+    <div class="body-modal-delete">
+        <div class="row">
+            <div class="col text-center">
+                <h4 class="text-center">¿Seguro que deseas eliminar a {{ userToDelete.name }}?</h4>
+                <p class="text-muted">Perderá el acceso a la aplicación.</p>
+                <div class="row m-3 p-3">
+                    <div class="col-12 col-sm-6 my-2"><button (click)="cancelDelete()" class="btn btn-danger">Cancelar</button></div>
+                    <div class="col-12 col-sm-6 my-2"><button (click)="confirmDelete()" class="btn btn-custom">Aceptar</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
