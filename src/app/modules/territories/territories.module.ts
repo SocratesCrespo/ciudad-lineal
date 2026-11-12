@@ -1,3 +1,4 @@
+import { BackButtonComponent } from 'src/app/shared/components/back-button/back-button.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ListModule } from './pages/list/list.module';
@@ -20,6 +21,7 @@ import { EditTerritoryComponent } from './components/edit-territory/edit-territo
   ],
   imports: [
     CommonModule,
+    BackButtonComponent,
     DetailModule,
     ListModule,
     TerritoriesRoutingModule,

@@ -1,3 +1,4 @@
+import { BackButtonComponent } from 'src/app/shared/components/back-button/back-button.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DetailComponent } from './detail.component';
@@ -16,6 +17,7 @@ import { DeletePublisherComponent } from './components/modals/delete-publisher/d
   ],
   imports: [
     CommonModule,
+    BackButtonComponent,
     RouterModule,
     ReactiveFormsModule
   ]

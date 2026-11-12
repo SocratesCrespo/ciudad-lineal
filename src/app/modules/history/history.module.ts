@@ -1,3 +1,4 @@
+import { BackButtonComponent } from 'src/app/shared/components/back-button/back-button.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ListComponent } from './pages/list/list.component';
@@ -13,6 +14,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   ],
   imports: [
     CommonModule,
+    BackButtonComponent,
     ReactiveFormsModule,
     RouterModule,
     HistoryRoutingModule
