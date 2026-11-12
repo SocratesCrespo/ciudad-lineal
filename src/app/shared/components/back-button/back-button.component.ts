@@ -9,7 +9,7 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [ RouterModule ],
   template: `
-    <button type="button" class="btn btn-danger" [routerLink]="link">{{ label }}</button>
+    <button type="button" class="btn btn-tonal" [routerLink]="link">{{ label }}</button>
   `
 })
 export class BackButtonComponent {

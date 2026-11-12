@@ -1,11 +1,14 @@
-// Colors
+// Colors (el menu conserva sus colores originales)
 $base-color: #434ce6
 $black: #000c0a
-$gray: #f5f5f5
+$canvas: #ffffff
+$surface: #f0f4f9
 $text: #565a58
-$gray-light: #a2a2a2
+$gray-light: #747775
+$divider: #e1e3e1
 
 .header
+    border-bottom: 1px solid $divider
     small
         color: $gray-light
 
@@ -13,40 +16,59 @@ $gray-light: #a2a2a2
     margin-left: 15%
     width: 85%
 
+// Barra de busqueda: caja tipo "prompt" de Gemini
 .main-header input
-    background-color: $gray
-    border: none
-    border-radius: 5px
-    height: 35px
+    background-color: $surface
+    border: 1px solid transparent
+    border-radius: 28px
+    height: 48px
+    padding: 0 1.5rem
+    transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease
+    &:hover
+        background-color: #e9eef6
     &:focus
-        border: none
-        box-shadow: $base-color 0px 0px 2px
+        background-color: $canvas
+        border-color: $base-color
+        box-shadow: 0 0 0 3px rgba(67, 76, 230, .18)
         outline: none
     &::placeholder
         color: $gray-light
 
 .main-content .content
-    background-color: $gray
-    
+    background-color: $canvas
+    padding: 1.5rem !important
+
 .sidebar
     background-color: $black
     height: 100%
     width: 15%
     z-index: 999
 
+// Menu lateral: misma paleta, forma Gemini (pildora, 14px/500, transicion suave)
 .sidebar-items ul li
     color: $text
     cursor: pointer
     list-style: none
+    font-size: .875rem
+    font-weight: 500
+    border-radius: 100px
+    transition: background-color .15s ease, color .15s ease
     &:hover
         background-color: $base-color
-        border-radius: 5px
         color: white
-    
+
 .sidebar-items ul li.active
     background-color: $base-color
-    border-radius: 5px
     color: white
+
+.sidebar-logo h3
+    font-size: 1.25rem
+    font-weight: 500
+
+.sidebar-items h5
+    font-size: .875rem
+    font-weight: 500
+    letter-spacing: .02em
 
 .inline
     max-width:400px
@@ -78,7 +100,7 @@ $gray-light: #a2a2a2
             display: none
         .sidebar-items
             display: none
-    
+
     .main-content
         margin-left: 10%
         width: 90%

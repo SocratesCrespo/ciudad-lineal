@@ -1,0 +1,326 @@
+// Capa de componentes estilo Gemini (modo claro). Va DESPUES de importar bootstrap.
+@import 'tokens'
+
+html
+    -webkit-font-smoothing: antialiased
+
+body
+    background-color: $canvas
+    color: $text
+
+// ---------------------------------------------------------------
+// Titulos
+// ---------------------------------------------------------------
+h1, h2, h3, h4, h5, h6
+    letter-spacing: 0
+
+// Degradado de texto estatico (sin animacion: no cuesta rendimiento)
+h1, .list-title h2
+    background: linear-gradient(90deg, #434ce6 0%, #9b72cb 55%, #d96570 100%)
+    -webkit-background-clip: text
+    background-clip: text
+    -webkit-text-fill-color: transparent
+    color: transparent
+    font-weight: 500
+    // evita que el recorte corte los descendentes (g, y, p)
+    padding-bottom: .1em
+    // el degradado se ajusta al texto, no a todo el ancho de la fila
+    width: fit-content
+    max-width: 100%
+    &.text-center
+        margin-left: auto
+        margin-right: auto
+
+small, .small
+    font-size: .875rem
+
+.text-muted, .text-body-secondary
+    color: $text-tertiary !important
+
+.text-danger
+    color: $error !important
+
+.text-success
+    color: $success !important
+
+a
+    transition: color .15s ease
+
+// ---------------------------------------------------------------
+// Botones
+// ---------------------------------------------------------------
+.btn
+    font-size: .875rem
+    line-height: 1.25rem
+    letter-spacing: .01em
+    border: 0
+    transition: $transition
+    &:focus-visible
+        outline: 2px solid $accent
+        outline-offset: 2px
+        box-shadow: none
+    &:disabled, &.disabled
+        opacity: .38
+
+// Boton principal de la app
+.btn-custom
+    background-color: $accent
+    color: #ffffff
+    &:hover, &:focus
+        background-color: $accent-hover
+        color: #ffffff
+        box-shadow: $elev-1
+    &:active
+        background-color: $accent-hover !important
+        color: #ffffff !important
+
+// Peligro (acciones destructivas)
+.btn-danger
+    background-color: $error
+    color: #ffffff
+    &:hover, &:focus
+        background-color: #8c1d18
+        color: #ffffff
+        box-shadow: $elev-1
+
+.btn-success
+    background-color: $success
+    color: #ffffff
+    &:hover, &:focus
+        background-color: #0f5223
+        color: #ffffff
+        box-shadow: $elev-1
+
+// Neutros tonales (Volver, Cancelar)
+.btn-tonal, .btn-secondary
+    background-color: $surface-hover
+    color: $text-secondary
+    &:hover, &:focus
+        background-color: $divider
+        color: $text
+
+// Un <button class="form-control btn btn-custom"> (login / registro) es un boton, no un campo
+.btn.form-control
+    width: 100%
+    height: auto
+    padding: .75rem 1.5rem
+    text-align: center
+    font-size: .875rem
+    border-radius: $radius-pill
+
+.btn-sm
+    padding: .375rem 1rem
+    font-size: .8125rem
+
+// ---------------------------------------------------------------
+// Formularios
+// ---------------------------------------------------------------
+label, .form-label
+    font-size: .875rem
+    font-weight: 500
+    color: $text-secondary
+    margin-bottom: .375rem
+
+.form-control, .form-select
+    font-size: 1rem
+    transition: $transition
+    &:hover:not(:focus):not(:disabled)
+        background-color: $surface-hover
+    &::placeholder
+        color: $text-tertiary
+
+textarea.form-control
+    border-radius: $radius-card
+    min-height: 96px
+
+.form-control-sm
+    padding: .5rem 1rem
+    font-size: .875rem
+
+select.form-control
+    // el select usa .form-control en la app: mismo aspecto que .form-select
+    appearance: none
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23444746' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e")
+    background-repeat: no-repeat
+    background-position: right 1.25rem center
+    background-size: 14px 10px
+    padding-right: 3rem
+
+// Varias pantallas usan <form class="form-control"> como CAJA contenedora, no como campo
+form.form-control
+    background-color: $canvas
+    border: 1px solid $divider
+    border-radius: $radius-input
+    padding: 1.5rem
+    height: auto
+    &:hover, &:focus-within
+        background-color: $canvas
+        border-color: $divider
+        box-shadow: none
+
+.form
+    background: transparent
+
+// ---------------------------------------------------------------
+// Tarjetas
+// ---------------------------------------------------------------
+.card, .card-simple-info, .card-main-info
+    border: 0
+    border-radius: $radius-card
+    background-color: $surface
+    transition: $transition
+
+.card-body
+    padding: 1.25rem 1.5rem
+
+.card-main-info
+    .title-main-info, a
+        color: $text-secondary
+    &:hover
+        background-color: $accent
+        .title-main-info, h3, a
+            color: #ffffff
+
+.card-simple-info
+    .title-main-info, a
+        color: $text-secondary
+
+.title-main-info
+    color: $text-secondary
+    font-size: .875rem
+    font-weight: 500
+
+.card-title
+    font-weight: 500
+
+.history-log
+    background-color: $canvas
+    border: 1px solid $divider
+    border-radius: $radius-alert
+
+// ---------------------------------------------------------------
+// Tablas
+// ---------------------------------------------------------------
+.table-responsive
+    background-color: $canvas
+    border: 1px solid $divider
+    border-radius: $radius-card
+
+.table
+    margin-bottom: 0
+    thead th
+        font-size: .8125rem
+        font-weight: 500
+        color: $text-secondary
+        background-color: $surface
+        border-bottom: 1px solid $divider
+        white-space: nowrap
+    tbody tr
+        transition: background-color .15s ease
+        &:hover
+            background-color: $surface
+        &:last-child td, &:last-child th
+            border-bottom: 0
+    td, th
+        vertical-align: middle
+
+tbody
+    td, th
+        cursor: pointer
+
+.td-img
+    max-width: 120px
+
+.border-top-dark
+    border-top: solid 1px #313131
+
+// ---------------------------------------------------------------
+// Alertas, badges, spinner
+// ---------------------------------------------------------------
+.alert-success
+    background-color: $success-container
+    color: #0a3d1a
+.alert-danger
+    background-color: $error-container
+    color: #5c110d
+.alert-warning
+    background-color: $warning-container
+    color: #4a3700
+.alert-info
+    background-color: $accent-container
+    color: #1b2085
+
+.badge
+    padding: .375em .75em
+    &.bg-warning
+        background-color: $warning-container !important
+        color: #4a3700 !important
+
+.spinner-border
+    color: $accent !important
+
+hr
+    border-color: $divider
+    opacity: 1
+
+// ---------------------------------------------------------------
+// Modales (confirmaciones). Un solo diseno para los 5 modales de la app
+// ---------------------------------------------------------------
+.container-modal-delete, .container-modal-finish
+    position: fixed
+    left: 5%
+    top: 0
+    width: 100%
+    height: 100%
+    display: flex
+    align-items: center
+    justify-content: center
+    padding: 0
+    margin: 0
+    max-width: none
+    background-color: rgba(0, 0, 0, .32)
+    z-index: 1050
+
+.body-modal-delete, .body-modal-finish
+    max-width: 420px
+    padding: 1.5rem
+    border: 0
+    border-radius: $radius-input
+    background-color: $canvas
+    box-shadow: $elev-3
+    h4
+        font-size: 1.25rem
+        font-weight: 500
+        color: $text
+    // En los modales "Cancelar" es el btn-danger de la primera columna: se muestra neutro
+    .btn-danger
+        background-color: $surface-hover
+        color: $text-secondary
+        &:hover, &:focus
+            background-color: $divider
+            color: $text
+            box-shadow: none
+
+@media (max-width: 991.98px) and (min-width: 768px)
+    .container-modal-delete, .container-modal-finish
+        left: 10%
+
+@media (max-width: 767.99px) and (min-width: 576px)
+    .container-modal-delete, .container-modal-finish
+        left: 14%
+
+@media (max-width: 575.99px)
+    .container-modal-delete, .container-modal-finish
+        left: 5%
+
+// ---------------------------------------------------------------
+// Scrollbar fina y accesibilidad de movimiento
+// ---------------------------------------------------------------
+*
+    scrollbar-width: thin
+    scrollbar-color: #c4c7c5 transparent
+
+@media (prefers-reduced-motion: reduce)
+    *, *::before, *::after
+        transition: none !important
+        animation: none !important
